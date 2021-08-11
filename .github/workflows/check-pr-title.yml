@@ -1,4 +1,4 @@
-name: 'Jira Check'
+name: 'Pull Request Title Check'
 
 on:
   pull_request:
