@@ -2,19 +2,18 @@ name: 'Jira Check'
 
 on:
   pull_request:
-    types:
-      # Check title when opened.
-      - opened
-      # Check title when new commits are pushed.
-      # Required to use as a status check.
-      - synchronize
+    types: [opened, edited, synchronize, reopened]
 
 jobs:
   publish:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v1
-      - uses: dylanvann/check-pull-request-title
+      - uses: deepakputhraya/action-pr-title@master
         with:
-          # Match pull request titles in the form UI-1234 - Message.
-          pattern: '^UI-\d* - '
+          regex: '([a-z])+\/([a-z])+' # Regex the title should match.
+          allowed_prefixes: 'feature,fix,JIRA' # title should start with the given prefix
+          disallowed_prefixes: 'feat/,hotfix' # title should not start with the given prefix
+          prefix_case_sensitive: false # title prefix are case insensitive
+          min_length: 5 # Min length of the title
+          max_length: 20 # Max length of the title
+          github_token: ${{ github.token }} # Default: ${{ github.token }}
