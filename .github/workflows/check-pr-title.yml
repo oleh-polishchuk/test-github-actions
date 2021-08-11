@@ -10,6 +10,16 @@ on:
       - synchronize
 
 jobs:
+  build:
+    name: Build name
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - uses: dylanvann/check-pull-request-title
+        with:
+          # Match pull request titles in the form UI-1234 - Message.
+          pattern: '^UI-\d* - '
+
   publish:
     runs-on: ubuntu-18.04
     steps:
